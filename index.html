@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlameBite – Hot &amp; Fresh Food Delivery</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Fraunces -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Fraunces"', 'serif'],
+          },
+          colors: {
+            flame: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            },
+            coral: {
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+            },
+            charcoal: {
+              850: '#1c1917',
+              900: '#141210',
+              950: '#0c0a09',
+            },
+            cream: '#fffbf5',
+          },
+          boxShadow: {
+            warm: '0 14px 34px -8px rgba(234, 88, 12, 0.16)',
+            card: '0 10px 28px -6px rgba(28, 25, 23, 0.08)',
+            float: '0 20px 45px -10px rgba(28, 25, 23, 0.22)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Custom subtle animations and scrollbar enhancements */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .animate-float {
+      animation: floatSlow 5s ease-in-out infinite;
+    }
+
+    .animate-float-delayed {
+      animation: floatSlow 6s ease-in-out 1.5s infinite;
+    }
+
+    /* Custom sleek scrollbar for cart items */
+    .cart-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .cart-scroll::-webkit-scrollbar-track {
+      background: #fff7ed;
+    }
+    .cart-scroll::-webkit-scrollbar-thumb {
+      background: #fdba74;
+      border-radius: 9999px;
+    }
+    .cart-scroll::-webkit-scrollbar-thumb:hover {
+      background: #f97316;
+    }
+  </style>
+</head>
+<body class="bg-cream text-charcoal-850 antialiased selection:bg-flame-500 selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div
+    id="toast-container"
+    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[70] flex flex-col items-center gap-2 pointer-events-none px-4 w-full max-w-md"
+    aria-live="polite"
+  ></div>
+
+  <!-- =====================================================================
+       1. MODERN STICKY NAVIGATION BAR
+  ====================================================================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-orange-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20 gap-3">
+
+        <!-- FlameBite Logo -->
+        <a href="#home" class="flex items-center gap-2.5 shrink-0 group">
+          <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-flame-500 to-coral-500 text-white flex items-center justify-center shadow-warm group-hover:scale-105 transition-transform">
+            <i class="fa-solid fa-fire-flame-curved text-lg"></i>
+          </span>
+          <div class="flex flex-col leading-none">
+            <span class="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-charcoal-900">
+              Flame<span class="text-flame-600">Bite</span>
+            </span>
+            <span class="text-[10px] font-semibold uppercase tracking-widest text-stone-400 hidden sm:block">
+              Hot &amp; Fresh Delivery
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-7" aria-label="Primary Navigation">
+          <a href="#home" class="text-sm font-semibold text-charcoal-850 hover:text-flame-600 transition-colors">Home</a>
+          <a href="#restaurants" class="text-sm font-semibold text-charcoal-850 hover:text-flame-600 transition-colors">Restaurants</a>
+          <a href="#menu" class="text-sm font-semibold text-charcoal-850 hover:text-flame-600 transition-colors">Menu</a>
+          <a href="#offers" class="text-sm font-semibold text-charcoal-850 hover:text-flame-600 transition-colors">Offers</a>
+          <a href="#why-us" class="text-sm font-semibold text-charcoal-850 hover:text-flame-600 transition-colors">Why Us</a>
+          <a href="#contact" class="text-sm font-semibold text-charcoal-850 hover:text-flame-600 transition-colors">Contact</a>
+        </nav>
+
+        <!-- Live Food / Restaurant Search Input (Desktop & Tablet) -->
+        <div class="hidden md:flex items-center relative flex-1 max-w-xs xl:max-w-sm">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-stone-400 text-sm pointer-events-none"></i>
+          <input
+            id="nav-search-input"
+            type="search"
+            placeholder="Search dishes or kitchens..."
+            aria-label="Search dishes or restaurants"
+            class="w-full pl-10 pr-9 py-2 text-sm bg-flame-50/80 border border-orange-200/80 rounded-full text-charcoal-900 placeholder-stone-400 focus:outline-none focus:bg-white focus:border-flame-500 focus:ring-2 focus:ring-flame-200 transition-all"
+          />
+          <button
+            id="clear-search-btn"
+            type="button"
+            title="Clear search"
+            aria-label="Clear search"
+            class="hidden absolute right-3 text-stone-400 hover:text-coral-500 transition-colors"
+          >
+            <i class="fa-solid fa-circle-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Cart Button & Mobile Menu Toggle -->
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button
+            id="open-cart-btn"
+            type="button"
+            aria-label="Open shopping cart"
+            class="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-charcoal-900 hover:bg-flame-600 text-white text-sm font-semibold shadow-sm transition-all cursor-pointer active:scale-95"
+          >
+            <i class="fa-solid fa-bag-shopping text-flame-400 group-hover:text-white"></i>
+            <span class="hidden sm:inline">Cart</span>
+            <span
+              id="cart-count-badge"
+              class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold rounded-full bg-coral-500 text-white"
+            >
+              0
+            </span>
+          </button>
+
+          <button
+            id="mobile-menu-btn"
+            type="button"
+            aria-label="Toggle mobile menu"
+            aria-expanded="false"
+            class="lg:hidden w-10 h-10 rounded-xl border border-orange-200 bg-flame-50 text-charcoal-900 flex items-center justify-center hover:bg-flame-100 transition-colors cursor-pointer"
+          >
+            <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Search & Collapsible Navigation Drawer -->
+      <div id="mobile-nav-panel" class="hidden lg:hidden pb-4 pt-1 border-t border-orange-100 space-y-3">
+        <!-- Mobile Search Input -->
+        <div class="md:hidden relative mt-2">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm pointer-events-none"></i>
+          <input
+            id="mobile-search-input"
+            type="search"
+            placeholder="Search biryani, burgers, pizza..."
+            aria-label="Mobile search dishes or restaurants"
+            class="w-full pl-10 pr-4 py-2.5 text-sm bg-flame-50 border border-orange-200 rounded-full text-charcoal-900 placeholder-stone-400 focus:outline-none focus:bg-white focus:border-flame-500"
+          />
+        </div>
+
+        <nav class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1" aria-label="Mobile Navigation">
+          <a href="#home" class="mobile-nav-link px-3.5 py-2 rounded-xl bg-flame-50/70 hover:bg-flame-100 text-sm font-semibold text-charcoal-850">Home</a>
+          <a href="#restaurants" class="mobile-nav-link px-3.5 py-2 rounded-xl bg-flame-50/70 hover:bg-flame-100 text-sm font-semibold text-charcoal-850">Restaurants</a>
+          <a href="#menu" class="mobile-nav-link px-3.5 py-2 rounded-xl bg-flame-50/70 hover:bg-flame-100 text-sm font-semibold text-charcoal-850">Menu</a>
+          <a href="#offers" class="mobile-nav-link px-3.5 py-2 rounded-xl bg-flame-50/70 hover:bg-flame-100 text-sm font-semibold text-charcoal-850">Offers</a>
+          <a href="#why-us" class="mobile-nav-link px-3.5 py-2 rounded-xl bg-flame-50/70 hover:bg-flame-100 text-sm font-semibold text-charcoal-850">Why Us</a>
+          <a href="#contact" class="mobile-nav-link px-3.5 py-2 rounded-xl bg-flame-50/70 hover:bg-flame-100 text-sm font-semibold text-charcoal-850">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       SLIDE-OUT SHOPPING CART DRAWER
+  ====================================================================== -->
+  <div
+    id="cart-backdrop"
+    class="fixed inset-0 z-50 bg-charcoal-950/60 backdrop-blur-xs hidden opacity-0 transition-opacity duration-300"
+    aria-hidden="true"
+  ></div>
+
+  <aside
+    id="cart-drawer"
+    aria-label="Shopping Cart"
+    class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white shadow-2xl translate-x-full transition-transform duration-300 flex flex-col justify-between"
+  >
+    <!-- Cart Header -->
+    <div class="px-6 py-5 border-b border-stone-100 flex items-center justify-between bg-cream">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-flame-100 text-flame-600 flex items-center justify-center">
+          <i class="fa-solid fa-bag-shopping text-lg"></i>
+        </div>
+        <div>
+          <h2 class="font-display text-lg font-bold text-charcoal-900">Your FlameBite Bag</h2>
+          <p id="cart-subtitle" class="text-xs text-stone-500">0 items selected</p>
+        </div>
+      </div>
+      <button
+        id="close-cart-btn"
+        type="button"
+        aria-label="Close shopping cart"
+        class="w-9 h-9 rounded-full bg-white border border-stone-200 text-stone-600 hover:text-coral-500 hover:border-coral-300 flex items-center justify-center transition-colors cursor-pointer"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Cart Items List -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto cart-scroll px-6 py-4 space-y-4">
+      <!-- Populated dynamically via JS -->
+    </div>
+
+    <!-- Cart Footer: Promo Code + Totals + Checkout -->
+    <div class="p-6 bg-cream border-t border-orange-100 space-y-4">
+      <!-- FOOD50 Promo Code Box -->
+      <div>
+        <label for="promo-input" class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-1.5">
+          Promo / Coupon Code
+        </label>
+        <div class="flex gap-2">
+          <input
+            id="promo-input"
+            type="text"
+            placeholder="Try FOOD50"
+            class="flex-1 px-3.5 py-2 text-sm font-semibold uppercase bg-white border border-stone-200 rounded-xl text-charcoal-900 placeholder-stone-400 focus:outline-none focus:border-flame-500"
+          />
+          <button
+            id="apply-promo-btn"
+            type="button"
+            class="px-4 py-2 rounded-xl bg-flame-600 hover:bg-flame-700 text-white text-sm font-semibold transition-colors cursor-pointer"
+          >
+            Apply
+          </button>
+        </div>
+        <p id="promo-feedback" class="text-xs mt-1.5 font-medium text-stone-500">
+          Use <span class="font-bold text-flame-600">FOOD50</span> for 50% off (up to ₹150) on orders ₹199+.
+        </p>
+      </div>
+
+      <!-- Price Breakdown -->
+      <div class="space-y-1.5 text-sm bg-white p-4 rounded-2xl border border-orange-100">
+        <div class="flex justify-between text-stone-600">
+          <span>Subtotal</span>
+          <span id="cart-subtotal" class="font-semibold text-charcoal-900">₹0.00</span>
+        </div>
+        <div id="discount-row" class="hidden flex justify-between text-emerald-600 font-medium">
+          <span id="discount-label">Promo Discount (FOOD50)</span>
+          <span id="cart-discount">-₹0.00</span>
+        </div>
+        <div class="flex justify-between text-stone-600">
+          <span>Delivery Fee</span>
+          <span id="cart-delivery" class="font-semibold text-charcoal-900">₹0.00</span>
+        </div>
+        <div class="pt-2 border-t border-stone-100 flex justify-between items-center text-base font-extrabold text-charcoal-900">
+          <span>Total Payable</span>
+          <span id="cart-total" class="text-flame-600 text-lg">₹0.00</span>
+        </div>
+      </div>
+
+      <!-- Checkout Action -->
+      <button
+        id="checkout-btn"
+        type="button"
+        disabled
+        class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-flame-600 to-coral-500 hover:from-flame-700 hover:to-coral-600 disabled:from-stone-300 disabled:to-stone-300 disabled:cursor-not-allowed text-white font-bold text-sm shadow-warm transition-all flex items-center justify-center gap-2 cursor-pointer"
+      >
+        <i class="fa-solid fa-bolt"></i>
+        <span>Place Order Now</span>
+      </button>
+
+      <!-- Checkout Confirmation Banner -->
+      <div
+        id="checkout-confirmation"
+        class="hidden p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs space-y-1"
+      >
+        <p class="font-bold text-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-check text-emerald-600"></i> Order Confirmed!
+        </p>
+        <p id="order-summary-text">Your delicious meal is being prepared and will arrive hot &amp; fresh.</p>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <!-- =====================================================================
+         2. HERO SECTION
+    ====================================================================== -->
+    <section id="home" class="relative overflow-hidden bg-gradient-to-br from-flame-50 via-cream to-rose-50/60 pt-10 pb-16 lg:pt-14 lg:pb-24">
+      <!-- Decorative Warm Glows -->
+      <div class="hidden sm:block absolute -top-24 -right-24 w-96 h-96 rounded-full bg-flame-300/25 blur-3xl pointer-events-none"></div>
+      <div class="hidden sm:block absolute bottom-0 -left-24 w-80 h-80 rounded-full bg-coral-400/15 blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+
+          <!-- Left Column: Headline, Location Search, CTAs -->
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-orange-200/80 shadow-xs text-xs sm:text-sm font-semibold text-flame-700">
+              <span class="w-2 h-2 rounded-full bg-coral-500 animate-pulse"></span>
+              <span>Free Delivery on First Order • Code <strong>FOOD50</strong></span>
+            </div>
+
+            <h1 class="font-display text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-charcoal-900 leading-[1.12]">
+              Craving Something <span class="text-transparent bg-clip-text bg-gradient-to-r from-flame-600 to-coral-500">Unforgettable?</span> Delivered Hot.
+            </h1>
+
+            <p class="text-base sm:text-lg text-stone-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              Discover handpicked local kitchens, wood-fired pizzas, smoky biryanis, juicy burgers, and sweet treats—piping hot right to your doorstep in minutes.
+            </p>
+
+            <!-- Delivery Location Search Bar -->
+            <div class="max-w-xl mx-auto lg:mx-0 bg-white p-2 rounded-2xl sm:rounded-full shadow-warm border border-orange-200/80">
+              <form id="location-form" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div class="relative flex-1 flex items-center">
+                  <i class="fa-solid fa-location-dot text-flame-600 ml-4 mr-2.5 text-base shrink-0"></i>
+                  <input
+                    id="location-input"
+                    type="text"
+                    placeholder="Enter your street, area, or city..."
+                    aria-label="Delivery location"
+                    class="w-full py-2.5 pr-3 text-sm text-charcoal-900 placeholder-stone-400 bg-transparent focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="px-6 py-3 rounded-xl sm:rounded-full bg-gradient-to-r from-flame-600 to-coral-500 hover:from-flame-700 hover:to-coral-600 text-white text-sm font-bold shadow-sm transition-all shrink-0 cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <span>Find Food</span>
+                  <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+              </form>
+            </div>
+
+            <!-- Quick City Suggestions & Live Status Feedback -->
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-stone-500">
+                <span class="font-semibold text-stone-600">Popular spots:</span>
+                <button type="button" data-city="Vijayawada" class="city-chip px-3 py-1 rounded-full bg-white hover:bg-flame-100 border border-orange-200/70 text-charcoal-850 font-medium transition-colors cursor-pointer">Vijayawada</button>
+                <button type="button" data-city="Hyderabad" class="city-chip px-3 py-1 rounded-full bg-white hover:bg-flame-100 border border-orange-200/70 text-charcoal-850 font-medium transition-colors cursor-pointer">Hyderabad</button>
+                <button type="button" data-city="Bengaluru" class="city-chip px-3 py-1 rounded-full bg-white hover:bg-flame-100 border border-orange-200/70 text-charcoal-850 font-medium transition-colors cursor-pointer">Bengaluru</button>
+                <button type="button" data-city="Chennai" class="city-chip px-3 py-1 rounded-full bg-white hover:bg-flame-100 border border-orange-200/70 text-charcoal-850 font-medium transition-colors cursor-pointer">Chennai</button>
+              </div>
+
+              <div
+                id="location-status"
+                class="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-emerald-700 bg-emerald-50/90 border border-emerald-200/80 px-3.5 py-1.5 rounded-full"
+              >
+                <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                <span id="location-status-text">Delivering across Andhra Pradesh &amp; major cities • Avg. 28 mins</span>
+              </div>
+            </div>
+
+            <!-- Call-to-Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-1">
+              <a
+                href="#menu"
+                class="px-7 py-3.5 rounded-full bg-charcoal-900 hover:bg-flame-600 text-white font-bold text-sm shadow-card transition-all inline-flex items-center gap-2"
+              >
+                <i class="fa-solid fa-utensils text-flame-400"></i>
+                <span>Explore Full Menu</span>
+              </a>
+              <a
+                href="#offers"
+                class="px-7 py-3.5 rounded-full bg-white hover:bg-flame-50 text-charcoal-900 border border-orange-200 font-bold text-sm transition-all inline-flex items-center gap-2"
+              >
+                <i class="fa-solid fa-tags text-coral-500"></i>
+                <span>View Special Offers</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Appetizing Food Imagery & Floating Cards -->
+          <div class="lg:col-span-5 relative">
+            <div class="relative rounded-[2rem] overflow-hidden shadow-float border-4 border-white aspect-[4/4.3] max-w-md mx-auto lg:max-w-none">
+              <img
+                src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=80"
+                alt="Wood-fired artisan pizza with fresh basil and melted cheese"
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-charcoal-950/65 via-transparent to-transparent"></div>
+              <div class="absolute bottom-5 left-5 right-5 text-white flex items-end justify-between gap-3">
+                <div>
+                  <span class="inline-block px-2.5 py-0.5 rounded-full bg-flame-500 text-[11px] font-bold uppercase tracking-wider mb-1">
+                    Chef's Favorite
+                  </span>
+                  <h2 class="font-display text-lg sm:text-xl font-bold">Fiery Pepperoni &amp; Basil Pizza</h2>
+                </div>
+                <span class="text-lg font-extrabold bg-white/95 text-charcoal-900 px-3 py-1 rounded-xl shrink-0">
+                  ₹349
+                </span>
+              </div>
+            </div>
+
+            <!-- Floating Rating Card -->
+            <div class="hidden sm:flex items-center gap-3 bg-white px-4 py-3 rounded-2xl shadow-float border border-orange-100 absolute -left-5 top-8 animate-float">
+              <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg font-bold">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <div>
+                <p class="text-sm font-extrabold text-charcoal-900">4.9 / 5 Rating</p>
+                <p class="text-xs text-stone-500">12,500+ happy foodies</p>
+              </div>
+            </div>
+
+            <!-- Floating Delivery Speed Card -->
+            <div class="hidden sm:flex items-center gap-3 bg-charcoal-900 text-white px-4 py-3 rounded-2xl shadow-float absolute -right-4 bottom-12 animate-float-delayed">
+              <div class="w-11 h-11 rounded-xl bg-flame-500/20 text-flame-400 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-motorcycle"></i>
+              </div>
+              <div>
+                <p class="text-sm font-bold">25–30 Min Express</p>
+                <p class="text-xs text-stone-300">Live rider tracking</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         3. FOOD CATEGORIES SECTION (INTERACTIVE FILTER CARDS)
+    ====================================================================== -->
+    <section id="categories" class="py-14 sm:py-16 bg-white border-y border-orange-100/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-widest text-flame-600">Browse By Craving</span>
+            <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-charcoal-900 mt-1">
+              Explore Food Categories
+            </h2>
+          </div>
+          <p class="text-sm text-stone-500">
+            Click any category card to filter the menu below.
+          </p>
+        </div>
+
+        <!-- Category Filter Cards Grid -->
+        <div id="category-cards-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3.5">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4. POPULAR RESTAURANTS SECTION
+    ====================================================================== -->
+    <section id="restaurants" class="py-16 sm:py-20 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-widest text-coral-600">Curated Kitchens</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-charcoal-900 mt-1">
+              Popular Restaurants Near You
+            </h2>
+            <p class="text-stone-600 text-sm sm:text-base mt-2 max-w-2xl">
+              Partnered with top-rated local chefs and cloud kitchens known for consistent quality and swift packaging.
+            </p>
+          </div>
+          <button
+            id="reset-restaurant-filter-btn"
+            type="button"
+            class="hidden self-start md:self-auto px-4 py-2 rounded-full bg-flame-100 hover:bg-flame-200 text-flame-700 text-xs font-bold transition-colors cursor-pointer"
+          >
+            <i class="fa-solid fa-rotate-left mr-1"></i> Show All Restaurants
+          </button>
+        </div>
+
+        <div id="restaurants-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         5. POPULAR DISHES SECTION (DYNAMICALLY FILTERED)
+    ====================================================================== -->
+    <section id="menu" class="py-16 sm:py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-widest text-flame-600">Freshly Prepared</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-charcoal-900 mt-1">
+              Popular Dishes
+            </h2>
+            <p id="active-filter-summary" class="text-sm text-stone-600 mt-2">
+              Showing all signature dishes across our partner kitchens.
+            </p>
+          </div>
+
+          <!-- Active Filters & Reset Controls -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <select
+              id="sort-dishes-select"
+              aria-label="Sort dishes"
+              class="px-4 py-2.5 rounded-full bg-flame-50 border border-orange-200 text-xs sm:text-sm font-semibold text-charcoal-900 focus:outline-none focus:border-flame-500 cursor-pointer"
+            >
+              <option value="featured">Sort: Featured</option>
+              <option value="rating-desc">Highest Rated</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+
+            <button
+              id="clear-all-filters-btn"
+              type="button"
+              class="px-4 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-charcoal-850 text-xs sm:text-sm font-semibold transition-colors cursor-pointer inline-flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-filter-circle-xmark text-flame-600"></i>
+              <span>Reset Filters</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dishes Grid -->
+        <div id="dishes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Empty State when no dish matches search/filter -->
+        <div
+          id="empty-dishes-state"
+          class="hidden text-center py-16 px-6 rounded-3xl bg-cream border border-orange-100 mt-6"
+        >
+          <div class="w-16 h-16 rounded-2xl bg-flame-100 text-flame-600 flex items-center justify-center text-2xl mx-auto mb-4">
+            <i class="fa-solid fa-bowl-food"></i>
+          </div>
+          <h3 class="font-display text-xl font-bold text-charcoal-900 mb-1">No matching dishes found</h3>
+          <p class="text-sm text-stone-500 max-w-md mx-auto mb-5">
+            Try clearing your search keyword or switching to another food category or restaurant.
+          </p>
+          <button
+            id="empty-reset-btn"
+            type="button"
+            class="px-6 py-2.5 rounded-full bg-flame-600 hover:bg-flame-700 text-white text-sm font-bold transition-colors cursor-pointer"
+          >
+            Show All Dishes
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         6. SPECIAL OFFERS SECTION (FEATURING FOOD50)
+    ====================================================================== -->
+    <section id="offers" class="py-16 sm:py-20 bg-gradient-to-br from-charcoal-900 via-charcoal-850 to-stone-900 text-white relative overflow-hidden">
+      <div class="hidden sm:block absolute top-10 right-10 w-72 h-72 rounded-full bg-flame-500/15 blur-3xl pointer-events-none"></div>
+      <div class="hidden sm:block absolute bottom-10 left-10 w-72 h-72 rounded-full bg-coral-500/15 blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="inline-block px-4 py-1 rounded-full bg-flame-500/20 border border-flame-400/30 text-flame-300 text-xs font-extrabold uppercase tracking-widest mb-3">
+            Exclusive Deals &amp; Savings
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+            Special Offers For Every Craving
+          </h2>
+          <p class="text-stone-300 text-sm sm:text-base mt-2.5">
+            Save big on your feast with our signature <strong>FOOD50</strong> promo code and combo perks.
+          </p>
+        </div>
+
+        <!-- Spotlight FOOD50 Banner + Additional Offers -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+          <!-- Hero Promo Card: FOOD50 -->
+          <div class="lg:col-span-6 rounded-3xl bg-gradient-to-br from-flame-600 via-flame-500 to-coral-500 p-7 sm:p-9 shadow-float flex flex-col justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-xs text-white text-xs font-bold uppercase tracking-wider mb-5">
+                <i class="fa-solid fa-crown"></i>
+                <span>Spotlight Deal</span>
+              </div>
+              <h3 class="font-display text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+                Get 50% OFF Up to ₹150!
+              </h3>
+              <p class="text-white/90 text-sm sm:text-base mt-3 leading-relaxed">
+                Treat yourself to gourmet pizzas, biryanis, burgers, and desserts on orders of ₹199 or more. Copy the code or apply it straight to your bag.
+              </p>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-white/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3 bg-charcoal-950/35 border border-dashed border-white/60 px-4 py-2.5 rounded-2xl">
+                <span class="text-xs uppercase tracking-widest text-white/75 font-semibold">Code:</span>
+                <span id="spotlight-code" class="text-lg font-extrabold tracking-wider text-white">FOOD50</span>
+              </div>
+
+              <div class="flex flex-wrap gap-2.5">
+                <button
+                  id="copy-food50-btn"
+                  type="button"
+                  class="px-4 py-2.5 rounded-xl bg-white text-charcoal-900 hover:bg-flame-50 text-xs sm:text-sm font-bold transition-all cursor-pointer inline-flex items-center gap-2"
+                >
+                  <i id="copy-food50-icon" class="fa-regular fa-copy"></i>
+                  <span id="copy-food50-text">Copy Code</span>
+                </button>
+                <button
+                  id="apply-food50-btn"
+                  type="button"
+                  class="px-4 py-2.5 rounded-xl bg-charcoal-900 hover:bg-charcoal-950 text-white text-xs sm:text-sm font-bold transition-all cursor-pointer inline-flex items-center gap-2"
+                >
+                  <i class="fa-solid fa-wand-magic-sparkles text-flame-400"></i>
+                  <span>Apply FOOD50</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Offer Cards -->
+          <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="rounded-3xl bg-white/5 hover:bg-white/10 border border-white/10 p-6 flex flex-col justify-between transition-colors">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-flame-500/20 text-flame-400 flex items-center justify-center text-xl mb-4">
+                  <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-white">Zero Delivery Fee</h3>
+                <p class="text-stone-300 text-sm mt-2">
+                  Enjoy complimentary doorstep delivery on orders above ₹299 from featured kitchens.
+                </p>
+              </div>
+              <span class="inline-block mt-5 text-xs font-bold uppercase tracking-wider text-flame-300">
+                Auto-applied at checkout
+              </span>
+            </div>
+
+            <div class="rounded-3xl bg-white/5 hover:bg-white/10 border border-white/10 p-6 flex flex-col justify-between transition-colors">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-coral-500/20 text-coral-400 flex items-center justify-center text-xl mb-4">
+                  <i class="fa-solid fa-ice-cream"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-white">Sweet Treat Add-On</h3>
+                <p class="text-stone-300 text-sm mt-2">
+                  Pair any main course or pizza with artisanal desserts and ice creams for extra delight.
+                </p>
+              </div>
+              <a href="#menu" class="inline-flex items-center gap-1.5 mt-5 text-xs font-bold uppercase tracking-wider text-coral-400 hover:text-coral-300">
+                <span>Browse Desserts</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+
+            <div class="sm:col-span-2 rounded-3xl bg-white/5 border border-white/10 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-start sm:items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-xl shrink-0">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                  <h3 class="font-display text-lg font-bold text-white">Study &amp; Squad Feast Bundles</h3>
+                  <p class="text-stone-300 text-xs sm:text-sm mt-0.5">
+                    Hosting friends or pulling a late study session? Stack multiple dishes in your bag and save with <strong>FOOD50</strong>.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onclick="document.getElementById('open-cart-btn').click()"
+                class="px-4 py-2.5 rounded-xl bg-flame-500 hover:bg-flame-600 text-white text-xs font-bold shrink-0 transition-colors cursor-pointer"
+              >
+                Open Bag
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         7. WHY CHOOSE US SECTION
+    ====================================================================== -->
+    <section id="why-us" class="py-16 sm:py-20 bg-cream">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs font-extrabold uppercase tracking-widest text-flame-600">The FlameBite Promise</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-charcoal-900 mt-1">
+            Why Choose FlameBite?
+          </h2>
+          <p class="text-stone-600 text-sm sm:text-base mt-2.5">
+            Every order is crafted with care, speed, and transparency so your food arrives just the way you imagined.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white rounded-3xl p-7 shadow-card border border-orange-100 hover:-translate-y-1 transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-flame-100 text-flame-600 flex items-center justify-center text-2xl mb-5">
+              <i class="fa-solid fa-bolt-lightning"></i>
+            </div>
+            <h3 class="font-display text-xl font-bold text-charcoal-900 mb-2">Fast Delivery</h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              Optimized dispatch routes and insulated hot-bags get meals to your door quickly without losing warmth or crispness.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-7 shadow-card border border-orange-100 hover:-translate-y-1 transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mb-5">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <h3 class="font-display text-xl font-bold text-charcoal-900 mb-2">Fresh Ingredients</h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              We partner with kitchens committed to farm-fresh produce, aromatic spices, and daily-prepared doughs and sauces.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-7 shadow-card border border-orange-100 hover:-translate-y-1 transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-5">
+              <i class="fa-solid fa-award"></i>
+            </div>
+            <h3 class="font-display text-xl font-bold text-charcoal-900 mb-2">Top-Rated Kitchens</h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              Verified hygiene standards and genuine customer ratings ensure you only order from trusted culinary spots.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-7 shadow-card border border-orange-100 hover:-translate-y-1 transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-rose-100 text-coral-600 flex items-center justify-center text-2xl mb-5">
+              <i class="fa-solid fa-percent"></i>
+            </div>
+            <h3 class="font-display text-xl font-bold text-charcoal-900 mb-2">Great Deals</h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              Enjoy generous discounts like <strong>FOOD50</strong>, transparent pricing, and zero hidden charges at checkout.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         8. CONTACT SECTION
+    ====================================================================== -->
+    <section id="contact" class="py-16 sm:py-20 bg-white border-t border-orange-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+          <!-- Left Contact Details -->
+          <div class="lg:col-span-5 space-y-6">
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-widest text-flame-600">We're Here For You</span>
+              <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-charcoal-900 mt-1">
+                Get In Touch With FlameBite
+              </h2>
+              <p class="text-stone-600 text-sm sm:text-base mt-3 leading-relaxed">
+                Have feedback about an order, want to onboard your restaurant, or need quick support? Drop us a message and our team will respond promptly.
+              </p>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-cream border border-orange-100">
+                <div class="w-11 h-11 rounded-xl bg-flame-100 text-flame-600 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm text-charcoal-900">Headquarters</h3>
+                  <p class="text-sm text-stone-600 mt-0.5">42 Culinary Lane, MG Road, Vijayawada, AP</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-cream border border-orange-100">
+                <div class="w-11 h-11 rounded-xl bg-flame-100 text-flame-600 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-phone-volume"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm text-charcoal-900">24/7 Support Hotline</h3>
+                  <p class="text-sm text-stone-600 mt-0.5">+91 98765 43210 • support@flamebite.example</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4 p-4 rounded-2xl bg-cream border border-orange-100">
+                <div class="w-11 h-11 rounded-xl bg-flame-100 text-flame-600 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm text-charcoal-900">Delivery Hours</h3>
+                  <p class="text-sm text-stone-600 mt-0.5">Every day: 8:00 AM – 11:30 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Inquiry / Feedback Form -->
+          <div class="lg:col-span-7 bg-cream rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-card">
+            <h3 class="font-display text-2xl font-bold text-charcoal-900 mb-1">Send Us a Message</h3>
+            <p class="text-xs sm:text-sm text-stone-500 mb-6">
+              Fields marked with <span class="text-coral-500 font-bold">*</span> are required.
+            </p>
+
+            <form id="contact-form" class="space-y-4" novalidate>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="contact-name" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                    Full Name <span class="text-coral-500">*</span>
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    required
+                    placeholder="Ananya Rao"
+                    class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm text-charcoal-900 placeholder-stone-400 focus:outline-none focus:border-flame-500 focus:ring-2 focus:ring-flame-200"
+                  />
+                </div>
+                <div>
+                  <label for="contact-email" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                    Email Address <span class="text-coral-500">*</span>
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    required
+                    placeholder="ananya@example.com"
+                    class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm text-charcoal-900 placeholder-stone-400 focus:outline-none focus:border-flame-500 focus:ring-2 focus:ring-flame-200"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="contact-topic" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  Topic
+                </label>
+                <select
+                  id="contact-topic"
+                  class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm text-charcoal-900 focus:outline-none focus:border-flame-500 cursor-pointer"
+                >
+                  <option value="Order Feedback">Order Feedback</option>
+                  <option value="Restaurant Partnership">Restaurant Partnership</option>
+                  <option value="Promo &amp; Billing Query">Promo &amp; Billing Query</option>
+                  <option value="General Inquiry">General Inquiry</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="contact-message" class="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  Your Message <span class="text-coral-500">*</span>
+                </label>
+                <textarea
+                  id="contact-message"
+                  rows="4"
+                  required
+                  placeholder="Tell us how we can help or share your favorite dish..."
+                  class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm text-charcoal-900 placeholder-stone-400 focus:outline-none focus:border-flame-500 focus:ring-2 focus:ring-flame-200 resize-y"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-flame-600 to-coral-500 hover:from-flame-700 hover:to-coral-600 text-white font-bold text-sm shadow-warm transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+              >
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Send Message</span>
+              </button>
+
+              <div
+                id="contact-success-box"
+                class="hidden p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-medium flex items-center gap-2.5"
+              >
+                <i class="fa-solid fa-circle-check text-emerald-600 text-lg shrink-0"></i>
+                <span id="contact-success-text">Thank you! Your message has been sent to FlameBite support.</span>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       FOOTER SECTION
+  ====================================================================== -->
+  <footer class="bg-charcoal-950 text-stone-300 pt-14 pb-8 border-t border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10 border-b border-stone-800/90">
+
+        <!-- Brand Summary -->
+        <div class="lg:col-span-2 space-y-3">
+          <a href="#home" class="inline-flex items-center gap-2.5">
+            <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-flame-500 to-coral-500 text-white flex items-center justify-center">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+            </span>
+            <span class="font-display text-2xl font-extrabold text-white">
+              Flame<span class="text-flame-500">Bite</span>
+            </span>
+          </a>
+          <p class="text-sm text-stone-400 max-w-md leading-relaxed">
+            FlameBite connects hungry food lovers with vibrant local kitchens, delivering fresh meals, street-style classics, and indulgent desserts right to your door.
+          </p>
+          <div class="flex items-center gap-3 pt-1">
+            <a href="#home" aria-label="Instagram" class="w-9 h-9 rounded-full bg-stone-800 hover:bg-flame-600 text-white flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-instagram text-sm"></i>
+            </a>
+            <a href="#home" aria-label="Facebook" class="w-9 h-9 rounded-full bg-stone-800 hover:bg-flame-600 text-white flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-facebook-f text-sm"></i>
+            </a>
+            <a href="#home" aria-label="X Twitter" class="w-9 h-9 rounded-full bg-stone-800 hover:bg-flame-600 text-white flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-x-twitter text-sm"></i>
+            </a>
+            <a href="#home" aria-label="YouTube" class="w-9 h-9 rounded-full bg-stone-800 hover:bg-flame-600 text-white flex items-center justify-center transition-colors">
+              <i class="fa-brands fa-youtube text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="font-display text-white font-bold text-base mb-3.5">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#home" class="hover:text-flame-400 transition-colors">Home</a></li>
+            <li><a href="#restaurants" class="hover:text-flame-400 transition-colors">Popular Restaurants</a></li>
+            <li><a href="#menu" class="hover:text-flame-400 transition-colors">Full Menu</a></li>
+            <li><a href="#offers" class="hover:text-flame-400 transition-colors">Special Offers (FOOD50)</a></li>
+            <li><a href="#contact" class="hover:text-flame-400 transition-colors">Contact &amp; Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Popular Categories Links -->
+        <div>
+          <h3 class="font-display text-white font-bold text-base mb-3.5">Top Categories</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#menu" data-quick-cat="Pizza" class="quick-cat-link hover:text-flame-400 transition-colors">Artisan Pizza</a></li>
+            <li><a href="#menu" data-quick-cat="Biryani" class="quick-cat-link hover:text-flame-400 transition-colors">Royal Biryani</a></li>
+            <li><a href="#menu" data-quick-cat="Burgers" class="quick-cat-link hover:text-flame-400 transition-colors">Gourmet Burgers</a></li>
+            <li><a href="#menu" data-quick-cat="Desserts" class="quick-cat-link hover:text-flame-400 transition-colors">Desserts &amp; Sweets</a></li>
+            <li><a href="#menu" data-quick-cat="Healthy Food" class="quick-cat-link hover:text-flame-400 transition-colors">Healthy Bowls</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
+        <p>&copy; <span id="copyright-year">2026</span> FlameBite. All rights reserved.</p>
+        <p>Made with <i class="fa-solid fa-heart text-coral-500 mx-0.5"></i> for food lovers everywhere.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       INTERACTIVE APPLICATION JAVASCRIPT
+  ====================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Set current year cleanly while keeping 2026 floor
+      const yearEl = document.getElementById('copyright-year');
+      if (yearEl) {
+        yearEl.textContent = Math.max(2026, new Date().getFullYear());
+      }
+
+      // -------------------------------------------------------------------
+      // DATA: CATEGORIES, RESTAURANTS, AND DISHES
+      // -------------------------------------------------------------------
+      const CATEGORIES = [
+        { name: 'All', icon: 'fa-border-all', badgeClass: 'bg-flame-100 text-flame-600' },
+        { name: 'Pizza', icon: 'fa-pizza-slice', badgeClass: 'bg-orange-100 text-orange-600' },
+        { name: 'Burgers', icon: 'fa-burger', badgeClass: 'bg-amber-100 text-amber-700' },
+        { name: 'Biryani', icon: 'fa-bowl-rice', badgeClass: 'bg-rose-100 text-rose-600' },
+        { name: 'Chinese', icon: 'fa-drumstick-bite', badgeClass: 'bg-red-100 text-red-600' },
+        { name: 'Desserts', icon: 'fa-cake-candles', badgeClass: 'bg-pink-100 text-pink-600' },
+        { name: 'Ice Cream', icon: 'fa-ice-cream', badgeClass: 'bg-sky-100 text-sky-600' },
+        { name: 'Sandwiches', icon: 'fa-bread-slice', badgeClass: 'bg-yellow-100 text-yellow-700' },
+        { name: 'Healthy Food', icon: 'fa-seedling', badgeClass: 'bg-emerald-100 text-emerald-600' },
+      ];
+
+      const RESTAURANTS = [
+        {
+          id: 'hearth-slice',
+          name: 'Hearth & Slice Pizzeria',
+          rating: 4.8,
+          reviews: '2.4k',
+          cuisines: ['Pizza', 'Sandwiches'],
+          deliveryTime: '25–30 min',
+          deliveryFee: 29,
+          image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80',
+          tagline: 'Stone-baked sourdough pizzas & melted paninis',
+        },
+        {
+          id: 'deccan-handi',
+          name: 'Deccan Handi & Grill',
+          rating: 4.9,
+          reviews: '4.1k',
+          cuisines: ['Biryani', 'Chinese'],
+          deliveryTime: '30–35 min',
+          deliveryFee: 39,
+          image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80',
+          tagline: 'Aromatic dum biryanis & wok-seared Indo-Chinese',
+        },
+        {
+          id: 'stack-ember',
+          name: 'Stack & Ember Burgers',
+          rating: 4.7,
+          reviews: '1.9k',
+          cuisines: ['Burgers', 'Sandwiches'],
+          deliveryTime: '20–25 min',
+          deliveryFee: 25,
+          image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
+          tagline: 'Juicy toasted brioche burgers & crunchy melts',
+        },
+        {
+          id: 'velvet-spoon',
+          name: 'Velvet Spoon & Green Bowl',
+          rating: 4.8,
+          reviews: '1.6k',
+          cuisines: ['Desserts', 'Ice Cream', 'Healthy Food'],
+          deliveryTime: '20–30 min',
+          deliveryFee: 0,
+          image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
+          tagline: 'Wholesome grain bowls, gelato & warm desserts',
+        },
+      ];
+
+      const DISHES = [
+        {
+          id: 'd1',
+          name: 'Smoky Margherita & Basil Pizza',
+          description: 'Crisp hand-stretched crust layered with San Marzano tomato sauce, fresh mozzarella, and sweet basil.',
+          price: 299,
+          rating: 4.8,
+          category: 'Pizza',
+          restaurantId: 'hearth-slice',
+          restaurantName: 'Hearth & Slice Pizzeria',
+          image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+        {
+          id: 'd2',
+          name: 'Double Smash Cheese Burger',
+          description: 'Two seared patties, sharp cheddar, caramelized onions, house flame sauce, and pickles on a brioche bun.',
+          price: 249,
+          rating: 4.9,
+          category: 'Burgers',
+          restaurantId: 'stack-ember',
+          restaurantName: 'Stack & Ember Burgers',
+          image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+        {
+          id: 'd3',
+          name: 'Royal Hyderabadi Chicken Biryani',
+          description: 'Long-grain basmati rice slow-cooked in a sealed handi with saffron, mint, fried onions, and spiced tender chicken.',
+          price: 349,
+          rating: 4.9,
+          category: 'Biryani',
+          restaurantId: 'deccan-handi',
+          restaurantName: 'Deccan Handi & Grill',
+          image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+        {
+          id: 'd4',
+          name: 'Chilli Garlic Hakka Noodles',
+          description: 'Wok-tossed noodles with crisp bell peppers, spring onions, roasted garlic, and savory soy-chilli glaze.',
+          price: 219,
+          rating: 4.6,
+          category: 'Chinese',
+          restaurantId: 'deccan-handi',
+          restaurantName: 'Deccan Handi & Grill',
+          image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+        {
+          id: 'd5',
+          name: 'Molten Chocolate Fudge Cake',
+          description: 'Warm dark chocolate cake with a rich gooey center served alongside a dusting of cocoa.',
+          price: 179,
+          rating: 4.8,
+          category: 'Desserts',
+          restaurantId: 'velvet-spoon',
+          restaurantName: 'Velvet Spoon & Green Bowl',
+          image: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+        {
+          id: 'd6',
+          name: 'Roasted Strawberry & Pistachio Gelato',
+          description: 'Creamy small-batch churned ice cream packed with ripe berry swirls and crunchy roasted pistachios.',
+          price: 159,
+          rating: 4.7,
+          category: 'Ice Cream',
+          restaurantId: 'velvet-spoon',
+          restaurantName: 'Velvet Spoon & Green Bowl',
+          image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+        {
+          id: 'd7',
+          name: 'Grilled Pesto Chicken & Avocado Melt',
+          description: 'Golden toasted sourdough stuffed with herb-marinated chicken, creamy avocado, and melted provolone.',
+          price: 229,
+          rating: 4.7,
+          category: 'Sandwiches',
+          restaurantId: 'stack-ember',
+          restaurantName: 'Stack & Ember Burgers',
+          image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+        {
+          id: 'd8',
+          name: 'Harvest Quinoa & Chickpea Power Bowl',
+          description: 'Protein-rich quinoa, roasted chickpeas, cherry tomatoes, cucumber, greens, and lemon-tahini dressing.',
+          price: 259,
+          rating: 4.8,
+          category: 'Healthy Food',
+          restaurantId: 'velvet-spoon',
+          restaurantName: 'Velvet Spoon & Green Bowl',
+          image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
+          featured: true,
+        },
+      ];
+
+      // -------------------------------------------------------------------
+      // APPLICATION STATE
+      // -------------------------------------------------------------------
+      const state = {
+        selectedCategory: 'All',
+        selectedRestaurantId: 'all',
+        searchQuery: '',
+        sortBy: 'featured',
+        deliveryCity: '',
+        cart: [], // { dishId, name, price, image, restaurantName, quantity }
+        promoCode: null, // 'FOOD50' when applied
+      };
+
+      // -------------------------------------------------------------------
+      // DOM REFERENCES
+      // -------------------------------------------------------------------
+      const navSearchInput = document.getElementById('nav-search-input');
+      const mobileSearchInput = document.getElementById('mobile-search-input');
+      const clearSearchBtn = document.getElementById('clear-search-btn');
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+      const mobileNavPanel = document.getElementById('mobile-nav-panel');
+
+      const locationForm = document.getElementById('location-form');
+      const locationInput = document.getElementById('location-input');
+      const locationStatusText = document.getElementById('location-status-text');
+
+      const categoryCardsGrid = document.getElementById('category-cards-grid');
+      const restaurantsGrid = document.getElementById('restaurants-grid');
+      const resetRestaurantFilterBtn = document.getElementById('reset-restaurant-filter-btn');
+
+      const dishesGrid = document.getElementById('dishes-grid');
+      const emptyDishesState = document.getElementById('empty-dishes-state');
+      const activeFilterSummary = document.getElementById('active-filter-summary');
+      const sortDishesSelect = document.getElementById('sort-dishes-select');
+      const clearAllFiltersBtn = document.getElementById('clear-all-filters-btn');
+      const emptyResetBtn = document.getElementById('empty-reset-btn');
+
+      // Cart DOM
+      const openCartBtn = document.getElementById('open-cart-btn');
+      const closeCartBtn = document.getElementById('close-cart-btn');
+      const cartDrawer = document.getElementById('cart-drawer');
+      const cartBackdrop = document.getElementById('cart-backdrop');
+      const cartCountBadge = document.getElementById('cart-count-badge');
+      const cartSubtitle = document.getElementById('cart-subtitle');
+      const cartItemsContainer = document.getElementById('cart-items-container');
+      const promoInput = document.getElementById('promo-input');
+      const applyPromoBtn = document.getElementById('apply-promo-btn');
+      const promoFeedback = document.getElementById('promo-feedback');
+      const cartSubtotalEl = document.getElementById('cart-subtotal');
+      const discountRowEl = document.getElementById('discount-row');
+      const discountLabelEl = document.getElementById('discount-label');
+      const cartDiscountEl = document.getElementById('cart-discount');
+      const cartDeliveryEl = document.getElementById('cart-delivery');
+      const cartTotalEl = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      const checkoutConfirmation = document.getElementById('checkout-confirmation');
+      const orderSummaryText = document.getElementById('order-summary-text');
+
+      // Promo spotlight buttons
+      const copyFood50Btn = document.getElementById('copy-food50-btn');
+      const copyFood50Icon = document.getElementById('copy-food50-icon');
+      const copyFood50Text = document.getElementById('copy-food50-text');
+      const applyFood50Btn = document.getElementById('apply-food50-btn');
+
+      // Contact form
+      const contactForm = document.getElementById('contact-form');
+      const contactSuccessBox = document.getElementById('contact-success-box');
+      const contactSuccessText = document.getElementById('contact-success-text');
+
+      // -------------------------------------------------------------------
+      // TOAST HELPER
+      // -------------------------------------------------------------------
+      function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        const bgClass =
+          type === 'error'
+            ? 'bg-coral-600 text-white'
+            : type === 'info'
+            ? 'bg-charcoal-900 text-white'
+            : 'bg-charcoal-900 text-white border-l-4 border-flame-500';
+
+        const iconClass =
+          type === 'error'
+            ? 'fa-circle-exclamation text-white'
+            : 'fa-circle-check text-flame-400';
+
+        toast.className = `${bgClass} pointer-events-auto px-4 py-3 rounded-2xl shadow-float text-xs sm:text-sm font-semibold flex items-center gap-2.5 transition-all duration-300 opacity-0 translate-y-2`;
+        toast.innerHTML = `<i class="fa-solid ${iconClass} text-base shrink-0"></i><span>${message}</span>`;
+
+        container.appendChild(toast);
+
+        requestAnimationFrame(() => {
+          toast.classList.remove('opacity-0', 'translate-y-2');
+        });
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 2800);
+      }
+
+      // -------------------------------------------------------------------
+      // RENDER CATEGORIES
+      // -------------------------------------------------------------------
+      function renderCategories() {
+        categoryCardsGrid.innerHTML = CATEGORIES.map((cat) => {
+          const isActive = state.selectedCategory === cat.name;
+          return `
+            <button
+              type="button"
+              data-category="${cat.name}"
+              aria-pressed="${isActive}"
+              class="category-card group flex flex-col items-center justify-center p-3.5 rounded-2xl border transition-all cursor-pointer text-center ${
+                isActive
+                  ? 'bg-gradient-to-b from-flame-500 to-coral-500 text-white border-flame-500 shadow-warm -translate-y-0.5'
+                  : 'bg-cream hover:bg-flame-50/90 text-charcoal-850 border-orange-100 hover:border-flame-300'
+              }"
+            >
+              <span class="w-11 h-11 rounded-xl flex items-center justify-center text-lg mb-2 transition-transform group-hover:scale-105 ${
+                isActive ? 'bg-white/20 text-white' : cat.badgeClass
+              }">
+                <i class="fa-solid ${cat.icon}"></i>
+              </span>
+              <span class="text-xs font-bold leading-tight">${cat.name}</span>
+            </button>
+          `;
+        }).join('');
+
+        categoryCardsGrid.querySelectorAll('.category-card').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const catName = btn.getAttribute('data-category');
+            state.selectedCategory = catName;
+            renderCategories();
+            renderDishes();
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      }
+
+      // -------------------------------------------------------------------
+      // RENDER RESTAURANTS
+      // -------------------------------------------------------------------
+      function renderRestaurants() {
+        resetRestaurantFilterBtn.classList.toggle('hidden', state.selectedRestaurantId === 'all');
+
+        restaurantsGrid.innerHTML = RESTAURANTS.map((rest) => {
+          const isSelected = state.selectedRestaurantId === rest.id;
+          const feeLabel = rest.deliveryFee === 0 ? 'Free Delivery' : `₹${rest.deliveryFee} delivery`;
+
+          return `
+            <article class="bg-white rounded-3xl overflow-hidden shadow-card border ${
+              isSelected ? 'border-flame-500 ring-2 ring-flame-300' : 'border-orange-100'
+            } flex flex-col justify-between transition-all hover:-translate-y-1">
+              <div>
+                <div class="relative h-44 overflow-hidden">
+                  <img
+                    src="${rest.image}"
+                    alt="${rest.name}"
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                  <div class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-charcoal-900/85 backdrop-blur-xs text-white text-xs font-bold">
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <span>${rest.rating.toFixed(1)}</span>
+                    <span class="text-stone-300 font-normal">(${rest.reviews})</span>
+                  </div>
+                  <div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-white/95 text-charcoal-900 text-xs font-bold shadow-xs">
+                    ${rest.deliveryTime}
+                  </div>
+                </div>
+
+                <div class="p-5">
+                  <h3 class="font-display text-lg font-bold text-charcoal-900 leading-snug">${rest.name}</h3>
+                  <p class="text-xs text-stone-500 mt-1">${rest.tagline}</p>
+
+                  <div class="flex flex-wrap gap-1.5 mt-3.5">
+                    ${rest.cuisines
+                      .map(
+                        (c) =>
+                          `<span class="px-2.5 py-0.5 rounded-full bg-flame-50 text-flame-700 border border-orange-200/70 text-[11px] font-semibold">${c}</span>`
+                      )
+                      .join('')}
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-stone-100">
+                <span class="text-xs font-semibold text-stone-500">
+                  <i class="fa-solid fa-motorcycle text-flame-500 mr-1"></i>${feeLabel}
+                </span>
+                <button
+                  type="button"
+                  data-restaurant-id="${rest.id}"
+                  class="view-restaurant-dishes-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+                    isSelected
+                      ? 'bg-flame-600 text-white'
+                      : 'bg-charcoal-900 hover:bg-flame-600 text-white'
+                  }"
+                >
+                  ${isSelected ? 'Viewing Menu' : 'View Dishes'}
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        restaurantsGrid.querySelectorAll('.view-restaurant-dishes-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const rId = btn.getAttribute('data-restaurant-id');
+            state.selectedRestaurantId = state.selectedRestaurantId === rId ? 'all' : rId;
+            renderRestaurants();
+            renderDishes();
+            document.getElementById('menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      }
+
+      // -------------------------------------------------------------------
+      // FILTER, SORT & RENDER POPULAR DISHES
+      // -------------------------------------------------------------------
+      function getFilteredDishes() {
+        const q = state.searchQuery.trim().toLowerCase();
+
+        const filtered = DISHES.filter((dish) => {
+          const matchesCategory =
+            state.selectedCategory === 'All' || dish.category === state.selectedCategory;
+          const matchesRestaurant =
+            state.selectedRestaurantId === 'all' || dish.restaurantId === state.selectedRestaurantId;
+          const matchesSearch =
+            !q ||
+            dish.name.toLowerCase().includes(q) ||
+            dish.description.toLowerCase().includes(q) ||
+            dish.category.toLowerCase().includes(q) ||
+            dish.restaurantName.toLowerCase().includes(q);
+
+          return matchesCategory && matchesRestaurant && matchesSearch;
+        });
+
+        if (state.sortBy === 'rating-desc') {
+          return [...filtered].sort((a, b) => b.rating - a.rating);
+        }
+        if (state.sortBy === 'price-asc') {
+          return [...filtered].sort((a, b) => a.price - b.price);
+        }
+        if (state.sortBy === 'price-desc') {
+          return [...filtered].sort((a, b) => b.price - a.price);
+        }
+        return filtered;
+      }
+
+      function updateFilterSummary(count) {
+        const parts = [];
+        if (state.selectedCategory !== 'All') {
+          parts.push(`Category: <strong>${state.selectedCategory}</strong>`);
+        }
+        if (state.selectedRestaurantId !== 'all') {
+          const rest = RESTAURANTS.find((r) => r.id === state.selectedRestaurantId);
+          if (rest) parts.push(`Kitchen: <strong>${rest.name}</strong>`);
+        }
+        if (state.searchQuery.trim()) {
+          parts.push(`Search: "<strong>${state.searchQuery.trim()}</strong>"`);
+        }
+
+        const countLabel = `Showing <strong>${count}</strong> ${count === 1 ? 'dish' : 'dishes'}`;
+        activeFilterSummary.innerHTML = parts.length
+          ? `${countLabel} • ${parts.join(' • ')}`
+          : `${countLabel} across our partner kitchens.`;
+      }
+
+      function renderDishes() {
+        const list = getFilteredDishes();
+        updateFilterSummary(list.length);
+
+        if (list.length === 0) {
+          dishesGrid.classList.add('hidden');
+          emptyDishesState.classList.remove('hidden');
+          return;
+        }
+
+        emptyDishesState.classList.add('hidden');
+        dishesGrid.classList.remove('hidden');
+
+        dishesGrid.innerHTML = list
+          .map(
+            (dish) => `
+          <article class="bg-cream/80 hover:bg-white rounded-3xl overflow-hidden border border-orange-100 hover:border-flame-300 shadow-xs hover:shadow-card transition-all flex flex-col justify-between group">
+            <div>
+              <div class="relative h-44 overflow-hidden">
+                <img
+                  src="${dish.image}"
+                  alt="${dish.name}"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-charcoal-900 text-[11px] font-bold shadow-xs">
+                  ${dish.category}
+                </span>
+                <span class="absolute top-3 right-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-charcoal-900/85 text-white text-xs font-bold">
+                  <i class="fa-solid fa-star text-amber-400 text-[11px]"></i>
+                  <span>${dish.rating.toFixed(1)}</span>
+                </span>
+              </div>
+
+              <div class="p-5">
+                <p class="text-[11px] font-bold uppercase tracking-wider text-flame-600 mb-1">
+                  ${dish.restaurantName}
+                </p>
+                <h3 class="font-display text-lg font-bold text-charcoal-900 leading-snug">
+                  ${dish.name}
+                </h3>
+                <p class="text-xs text-stone-600 mt-1.5 line-clamp-2 leading-relaxed">
+                  ${dish.description}
+                </p>
+              </div>
+            </div>
+
+            <div class="px-5 pb-5 pt-3 border-t border-orange-100/80 flex items-center justify-between gap-2">
+              <span class="text-lg font-extrabold text-charcoal-900">₹${dish.price}</span>
+              <button
+                type="button"
+                data-dish-id="${dish.id}"
+                class="add-to-cart-btn px-4 py-2 rounded-xl bg-gradient-to-r from-flame-600 to-coral-500 hover:from-flame-700 hover:to-coral-600 text-white text-xs font-bold shadow-xs transition-all cursor-pointer inline-flex items-center gap-1.5 active:scale-95"
+              >
+                <i class="fa-solid fa-plus"></i>
+                <span>Add to Cart</span>
+              </button>
+            </div>
+          </article>
+        `
+          )
+          .join('');
+
+        dishesGrid.querySelectorAll('.add-to-cart-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const dishId = btn.getAttribute('data-dish-id');
+            addToCart(dishId);
+          });
+        });
+      }
+
+      // -------------------------------------------------------------------
+      // SHOPPING CART & FOOD50 PROMO LOGIC
+      // -------------------------------------------------------------------
+      function openCart() {
+        cartBackdrop.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          cartBackdrop.classList.remove('opacity-0');
+          cartDrawer.classList.remove('translate-x-full');
+        });
+        document.body.classList.add('overflow-hidden');
+      }
+
+      function closeCart() {
+        cartDrawer.classList.add('translate-x-full');
+        cartBackdrop.classList.add('opacity-0');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+          cartBackdrop.classList.add('hidden');
+        }, 300);
+      }
+
+      function addToCart(dishId) {
+        const dish = DISHES.find((d) => d.id === dishId);
+        if (!dish) return;
+
+        checkoutConfirmation.classList.add('hidden');
+
+        const existing = state.cart.find((item) => item.dishId === dish.id);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          state.cart.push({
+            dishId: dish.id,
+            name: dish.name,
+            price: dish.price,
+            image: dish.image,
+            restaurantName: dish.restaurantName,
+            quantity: 1,
+          });
+        }
+
+        renderCart();
+        showToast(`Added "${dish.name}" to your bag!`);
+      }
+
+      function updateQuantity(dishId, delta) {
+        const idx = state.cart.findIndex((item) => item.dishId === dishId);
+        if (idx === -1) return;
+
+        state.cart[idx].quantity += delta;
+        if (state.cart[idx].quantity <= 0) {
+          state.cart.splice(idx, 1);
+        }
+        renderCart();
+      }
+
+      function removeItem(dishId) {
+        state.cart = state.cart.filter((item) => item.dishId !== dishId);
+        renderCart();
+      }
+
+      function calculateTotals() {
+        const subtotal = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        // FOOD50: 50% off up to ₹150 on orders >= ₹199
+        let discount = 0;
+        let promoMessage = '';
+        let promoStatusType = 'neutral'; // 'success' | 'warning' | 'neutral'
+
+        if (state.promoCode === 'FOOD50') {
+          if (state.cart.length === 0) {
+            promoMessage = 'FOOD50 saved! Add items worth ₹199+ to get 50% off (up to ₹150).';
+            promoStatusType = 'warning';
+          } else if (subtotal < 199) {
+            const needed = Math.ceil(199 - subtotal);
+            promoMessage = `Add ₹${needed} more to unlock FOOD50 (50% off up to ₹150).`;
+            promoStatusType = 'warning';
+          } else {
+            discount = Math.min(150, Math.round(subtotal * 0.5));
+            promoMessage = `FOOD50 applied! You're saving ₹${discount.toFixed(0)}.`;
+            promoStatusType = 'success';
+          }
+        } else {
+          promoMessage = 'Use FOOD50 for 50% off (up to ₹150) on orders ₹199+.';
+        }
+
+        const afterDiscount = Math.max(0, subtotal - discount);
+        const deliveryFee = state.cart.length === 0 ? 0 : afterDiscount >= 299 ? 0 : 29;
+        const total = afterDiscount + deliveryFee;
+
+        return { subtotal, discount, deliveryFee, total, promoMessage, promoStatusType };
+      }
+
+      function renderCart() {
+        const totalCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountBadge.textContent = totalCount;
+        cartSubtitle.textContent =
+          totalCount === 0
+            ? 'Your bag is currently empty'
+            : `${totalCount} ${totalCount === 1 ? 'item' : 'items'} in your bag`;
+
+        if (state.cart.length === 0) {
+          cartItemsContainer.innerHTML = `
+            <div class="text-center py-14 px-4">
+              <div class="w-16 h-16 rounded-2xl bg-flame-50 text-flame-400 flex items-center justify-center text-2xl mx-auto mb-3">
+                <i class="fa-solid fa-bag-shopping"></i>
+              </div>
+              <h3 class="font-display text-base font-bold text-charcoal-900">Your bag feels light</h3>
+              <p class="text-xs text-stone-500 mt-1 max-w-xs mx-auto">
+                Explore Popular Dishes and tap <strong>Add to Cart</strong> to start building your feast.
+              </p>
+            </div>
+          `;
+        } else {
+          cartItemsContainer.innerHTML = state.cart
+            .map(
+              (item) => `
+            <div class="flex gap-3.5 p-3.5 rounded-2xl bg-cream border border-orange-100 items-center">
+              <img
+                src="${item.image}"
+                alt="${item.name}"
+                class="w-16 h-16 rounded-xl object-cover shrink-0"
+              />
+              <div class="flex-1 min-w-0">
+                <h4 class="text-sm font-bold text-charcoal-900 truncate">${item.name}</h4>
+                <p class="text-[11px] text-stone-500 truncate">${item.restaurantName}</p>
+                <p class="text-xs font-extrabold text-flame-600 mt-1">₹${item.price * item.quantity}</p>
+              </div>
+              <div class="flex flex-col items-end gap-2 shrink-0">
+                <button
+                  type="button"
+                  data-remove-id="${item.dishId}"
+                  aria-label="Remove ${item.name}"
+                  class="remove-cart-item text-stone-400 hover:text-coral-500 text-xs transition-colors cursor-pointer"
+                >
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                <div class="inline-flex items-center rounded-xl bg-white border border-stone-200 overflow-hidden">
+                  <button
+                    type="button"
+                    data-qty-id="${item.dishId}"
+                    data-delta="-1"
+                    aria-label="Decrease quantity"
+                    class="qty-btn w-7 h-7 flex items-center justify-center text-charcoal-900 hover:bg-flame-50 text-xs font-bold cursor-pointer"
+                  >
+                    <i class="fa-solid fa-minus"></i>
+                  </button>
+                  <span class="px-2.5 text-xs font-extrabold text-charcoal-900">${item.quantity}</span>
+                  <button
+                    type="button"
+                    data-qty-id="${item.dishId}"
+                    data-delta="1"
+                    aria-label="Increase quantity"
+                    class="qty-btn w-7 h-7 flex items-center justify-center text-charcoal-900 hover:bg-flame-50 text-xs font-bold cursor-pointer"
+                  >
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join('');
+
+          cartItemsContainer.querySelectorAll('.qty-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              updateQuantity(btn.getAttribute('data-qty-id'), Number(btn.getAttribute('data-delta')));
+            });
+          });
+
+          cartItemsContainer.querySelectorAll('.remove-cart-item').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              removeItem(btn.getAttribute('data-remove-id'));
+            });
+          });
+        }
+
+        const { subtotal, discount, deliveryFee, total, promoMessage, promoStatusType } = calculateTotals();
+
+        cartSubtotalEl.textContent = `₹${subtotal.toFixed(2)}`;
+
+        if (discount > 0) {
+          discountRowEl.classList.remove('hidden');
+          discountLabelEl.textContent = `Promo Discount (${state.promoCode})`;
+          cartDiscountEl.textContent = `-₹${discount.toFixed(2)}`;
+        } else {
+          discountRowEl.classList.add('hidden');
+        }
+
+        cartDeliveryEl.textContent =
+          state.cart.length === 0
+            ? '₹0.00'
+            : deliveryFee === 0
+            ? 'FREE'
+            : `₹${deliveryFee.toFixed(2)}`;
+
+        cartTotalEl.textContent = `₹${total.toFixed(2)}`;
+
+        promoFeedback.textContent = promoMessage;
+        promoFeedback.className = `text-xs mt-1.5 font-medium ${
+          promoStatusType === 'success'
+            ? 'text-emerald-600'
+            : promoStatusType === 'warning'
+            ? 'text-amber-600'
+            : 'text-stone-500'
+        }`;
+
+        checkoutBtn.disabled = state.cart.length === 0;
+      }
+
+      function applyPromoCode(rawCode) {
+        const normalized = (rawCode || '').trim().toUpperCase();
+        if (!normalized) {
+          state.promoCode = null;
+          promoFeedback.textContent = 'Please enter a promo code such as FOOD50.';
+          promoFeedback.className = 'text-xs mt-1.5 font-medium text-coral-600';
+          renderCart();
+          return;
+        }
+
+        if (normalized === 'FOOD50') {
+          state.promoCode = 'FOOD50';
+          promoInput.value = 'FOOD50';
+          renderCart();
+          showToast('Promo code FOOD50 applied!');
+        } else {
+          state.promoCode = null;
+          renderCart();
+          promoFeedback.textContent = `"${normalized}" is not valid. Try FOOD50 for 50% off!`;
+          promoFeedback.className = 'text-xs mt-1.5 font-medium text-coral-600';
+          showToast('Invalid promo code. Try FOOD50!', 'error');
+        }
+      }
+
+      // -------------------------------------------------------------------
+      // EVENT LISTENERS
+      // -------------------------------------------------------------------
+      openCartBtn.addEventListener('click', openCart);
+      closeCartBtn.addEventListener('click', closeCart);
+      cartBackdrop.addEventListener('click', closeCart);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !cartBackdrop.classList.contains('hidden')) {
+          closeCart();
+        }
+      });
+
+      applyPromoBtn.addEventListener('click', () => applyPromoCode(promoInput.value));
+      promoInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          applyPromoCode(promoInput.value);
+        }
+      });
+
+      // Spotlight FOOD50 Copy & Apply
+      copyFood50Btn.addEventListener('click', () => {
+        const code = 'FOOD50';
+        const onCopied = () => {
+          copyFood50Icon.className = 'fa-solid fa-check text-emerald-600';
+          copyFood50Text.textContent = 'Copied!';
+          showToast('Copied FOOD50 to clipboard!');
+          setTimeout(() => {
+            copyFood50Icon.className = 'fa-regular fa-copy';
+            copyFood50Text.textContent = 'Copy Code';
+          }, 2200);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(onCopied).catch(() => {
+            fallbackCopy(code);
+            onCopied();
+          });
+        } else {
+          fallbackCopy(code);
+          onCopied();
+        }
+      });
+
+      function fallbackCopy(text) {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.setAttribute('readonly', '');
+        temp.style.position = 'absolute';
+        temp.style.left = '-9999px';
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+
+      applyFood50Btn.addEventListener('click', () => {
+        promoInput.value = 'FOOD50';
+        applyPromoCode('FOOD50');
+        openCart();
+      });
+
+      // Checkout Simulation
+      checkoutBtn.addEventListener('click', () => {
+        if (state.cart.length === 0) return;
+
+        const { total, discount } = calculateTotals();
+        const itemTotal = state.cart.reduce((s, i) => s + i.quantity, 0);
+        const cityLabel = state.deliveryCity ? ` to ${state.deliveryCity}` : '';
+
+        orderSummaryText.textContent = `Order placed for ${itemTotal} ${
+          itemTotal === 1 ? 'item' : 'items'
+        } (Total: ₹${total.toFixed(2)}${
+          discount > 0 ? `, saved ₹${discount.toFixed(0)} with FOOD50` : ''
+        })${cityLabel}. Estimated arrival: 25–30 mins.`;
+
+        checkoutConfirmation.classList.remove('hidden');
+        state.cart = [];
+        state.promoCode = null;
+        promoInput.value = '';
+        renderCart();
+        showToast('Order placed! Your food is on the way.');
+      });
+
+      // Live Search Sync (Desktop + Mobile)
+      function syncSearchQuery(val) {
+        state.searchQuery = val;
+        if (navSearchInput.value !== val) navSearchInput.value = val;
+        if (mobileSearchInput.value !== val) mobileSearchInput.value = val;
+        clearSearchBtn.classList.toggle('hidden', val.trim().length === 0);
+        renderDishes();
+      }
+
+      navSearchInput.addEventListener('input', (e) => syncSearchQuery(e.target.value));
+      mobileSearchInput.addEventListener('input', (e) => syncSearchQuery(e.target.value));
+
+      clearSearchBtn.addEventListener('click', () => {
+        syncSearchQuery('');
+        navSearchInput.focus();
+      });
+
+      // Mobile Menu Toggle
+      mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = !mobileNavPanel.classList.contains('hidden');
+        mobileNavPanel.classList.toggle('hidden', isOpen);
+        mobileMenuBtn.setAttribute('aria-expanded', String(!isOpen));
+        mobileMenuIcon.className = isOpen ? 'fa-solid fa-bars text-lg' : 'fa-solid fa-xmark text-lg';
+      });
+
+      mobileNavPanel.querySelectorAll('.mobile-nav-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileNavPanel.classList.add('hidden');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+          mobileMenuIcon.className = 'fa-solid fa-bars text-lg';
+        });
+      });
+
+      // Delivery Location Search & Quick City Chips
+      function setDeliveryLocation(cityName) {
+        const clean = cityName.trim();
+        if (!clean) {
+          locationStatusText.textContent = 'Please enter a delivery area or select a city above.';
+          showToast('Enter a location to check delivery availability.', 'error');
+          return;
+        }
+        state.deliveryCity = clean;
+        locationInput.value = clean;
+        locationStatusText.textContent = `Available in ${clean}! Express delivery in 22–30 mins.`;
+        showToast(`Delivery location set to ${clean}`);
+      }
+
+      locationForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        setDeliveryLocation(locationInput.value);
+      });
+
+      document.querySelectorAll('.city-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          setDeliveryLocation(chip.getAttribute('data-city'));
+        });
+      });
+
+      // Sort & Filter Reset Controls
+      sortDishesSelect.addEventListener('change', (e) => {
+        state.sortBy = e.target.value;
+        renderDishes();
+      });
+
+      function resetAllFilters() {
+        state.selectedCategory = 'All';
+        state.selectedRestaurantId = 'all';
+        state.sortBy = 'featured';
+        sortDishesSelect.value = 'featured';
+        syncSearchQuery('');
+        renderCategories();
+        renderRestaurants();
+        renderDishes();
+      }
+
+      clearAllFiltersBtn.addEventListener('click', resetAllFilters);
+      emptyResetBtn.addEventListener('click', resetAllFilters);
+      resetRestaurantFilterBtn.addEventListener('click', () => {
+        state.selectedRestaurantId = 'all';
+        renderRestaurants();
+        renderDishes();
+      });
+
+      // Footer Quick Category Links
+      document.querySelectorAll('.quick-cat-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          const cat = link.getAttribute('data-quick-cat');
+          if (cat) {
+            state.selectedCategory = cat;
+            renderCategories();
+            renderDishes();
+          }
+        });
+      });
+
+      // Contact Form Validation & Submission Feedback
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('contact-name');
+        const emailInput = document.getElementById('contact-email');
+        const topicInput = document.getElementById('contact-topic');
+        const messageInput = document.getElementById('contact-message');
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const message = messageInput.value.trim();
+        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (!name || !emailValid || !message) {
+          contactSuccessBox.classList.add('hidden');
+          showToast('Please enter your name, a valid email, and a message.', 'error');
+          return;
+        }
+
+        contactSuccessText.textContent = `Thanks, ${name}! Your "${topicInput.value}" message has been received. We'll reply to ${email} shortly.`;
+        contactSuccessBox.classList.remove('hidden');
+        contactForm.reset();
+        showToast('Message sent to FlameBite!');
+      });
+
+      // -------------------------------------------------------------------
+      // INITIALIZE VIEW
+      // -------------------------------------------------------------------
+      renderCategories();
+      renderRestaurants();
+      renderDishes();
+      renderCart();
+    })();
+  </script>
+</body>
+</html>
